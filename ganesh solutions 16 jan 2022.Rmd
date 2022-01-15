@@ -1,0 +1,88 @@
+---
+title: "Final exam task script"
+author: "Ganesh vekhande"
+date: "14/01/2022"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+Nations_df=read.csv(file.choose())
+```
+```{r}
+str(Nations_df)
+head(Nations_df)
+```
+_Data has 111 observations and 6 variables_ 
+
+# Q.1 
+
+```{r}
+mean_rgdppc=mean(Nations_df$rgdppc)
+median_rgdppc=median(Nations_df$rgdppc)
+print(paste( " mean of real gross domestic product per capita is" ,  mean_rgdppc))
+print(paste( " median of real gross domestic product per capita is " ,  median_rgdppc))
+```
+
+
+# Q.2
+
+
+```{r}
+h=hist(Nations_df$rgdppc,xlab = "real gross domestic product per capita ",col = "red",border = "blue")
+h
+mode <- h$mids[h$counts == max(h$counts)]
+mode
+```
+#### from the graph we can clearly observe 
+mean of real gross domestic product per capita is _9314.95037585586_
+median of real gross domestic product per capita is  _4613_
+from hiatogrm mode of real gross domestic product per capita is  _2500_
+
+__From here we can clearly see that maximum of countries has real gross doemstic product per capita as 2500 
+but since median Real gross domestic product per capita is 4613 and some of the countries have exceptionally high rgdppc which eventually affect the average rgdppc which is found higher as 9314.95__
+
+#### so it will be good to remove countries which have rgdppc higher than 25000
+
+
+```{r}
+New_rgdppc=Nations_df$rgdppc[Nations_df$rgdppc <= 25000]
+length(New_rgdppc)
+```
+
+```{r}
+mean_new_rgdppc=mean(New_rgdppc)
+median_new_rgdppc=median(New_rgdppc)
+print(paste( " mean of real gross domestic product per capita is" ,mean_new_rgdppc ))
+print(paste( " median of real gross domestic product per capita is " ,  median_new_rgdppc))
+
+
+
+h1=hist(New_rgdppc,xlab = "real gross domestic product per capita ",col = "red",border = "blue")
+h1
+mode1 <- h1$mids[h1$counts == max(h1$counts)]
+mode1
+print(paste( " mean of real gross domestic product per capita is" ,mean_new_rgdppc ))
+print(paste( " median of real gross domestic product per capita is " ,  median_new_rgdppc))
+print(paste( " mode of real gross domestic product per capita is " ,  mode1 ))
+```
+#### Hence the problem is not completely but partly fixed that current data has no effect higher values of rgdppc
+
+
+# Q.3
+```{r}
+cont_1=table(Nations_df$regime , Nations_df$plit)
+cont_1
+
+chisq.test(cont_1)
+```
+#####  as p value is 1.55e^-13 which is less than 5 % level of significance hence we can reject null hypothesis that the regime is independent of plit 
+
+##### hence we conclude that regime type of nation depends on the literacy in the nation 
+
+
